@@ -118,8 +118,8 @@ function getFileuploadErrormessage($errorNumber){
     default:
       return "There was a problem with your upload."; break;
     }
-
 }
+
 
 //
 // COPY PASTED FROM PROJECT 1 URGEWWW

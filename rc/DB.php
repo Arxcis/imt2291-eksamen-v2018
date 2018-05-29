@@ -191,6 +191,42 @@ class DB {
         return $db->lastInsertId();
     }
 
+
+    /**
+     * Post aircraft image thumbnails
+     * @param $db - pdo database handle
+     * @param $media - actual thumbnail data 200x200 
+     * @param $mimetype - mimetype of thumbnail
+     * @param $filename - filename on server filesystem
+     * @param $craftid - id from the aircrafts table foreign key
+     * @param $date - date when image added
+     * @return lastinsertID | null
+     */
+    public static function postAircraftImage($db,
+                                             $media,
+                                             $mimetype,
+                                             $filename,
+                                             $craftId) {
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "INSERT INTO aircraftImages (media, mimeType, filename, craftid) ".
+            "VALUES(?, ?, ?, ?)",
+            array(
+                $media,
+                $mimetype,
+                $filename,
+                $craftId
+            )
+        );
+
+        if ($stmt->rowCount() !== 1) {
+            echoline(" error 1 - Aircraft thumbnail us was not inserted into DB");
+            return null;
+        }
+
+        return $db->lastInsertId();
+    }
+
     /**
      * Get all battery entries
      * @param $db - pdo database handle

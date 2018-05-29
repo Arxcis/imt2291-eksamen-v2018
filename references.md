@@ -12,3 +12,5 @@ select element - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/selec
 input time - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
 twig length filter - https://twig.symfony.com/doc/2.x/filters/length.html
+
+get value of select element - https://stackoverflow.com/a/1085810/9636402

@@ -18,7 +18,7 @@ CREATE TABLE `aircraftImages` (
   `mimeType` varchar(64) NOT NULL,
   `filename` varchar(128) NOT NULL,
   `craftId` bigint(20) NOT NULL,
-  `dateAdded` date NOT NULL
+  `dateAdded` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

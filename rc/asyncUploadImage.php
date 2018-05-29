@@ -2,10 +2,15 @@
 
 session_start();
 
+require_once "DB.php";
+require_once "helper.php";
+
+
 function handleAsyncUploadImage() {
     $fname    = $_SERVER['HTTP_X_ORIGINALFILENAME'];       // Get extra parameters
     $fsize    = $_SERVER['HTTP_X_ORIGINALFILESIZE'];
     $mimetype = $_SERVER['HTTP_X_ORIGINALMIMETYPE'];
+    $craftId  = $_SERVER['HTTP_X_CRAFTID'];
   
     header("Content-type: application/json");           // Send back json data
 
@@ -13,13 +18,10 @@ function handleAsyncUploadImage() {
     $fname = md5(microtime() . $fname . $fsize . $mimetype) . '-' . $fname;
 
 
+    //
+    // Stream file from client
+    //
     $handle = fopen('php://input', 'r');                // Read the file from stdin
-
-    //
-    // MODIFICATION - adding md5 hash to all file names, so pictures
-    // with same file name can be uploaded and will not overwrite each other.
-    // - JSolsvik 29.05.2018
-    //
     $output = fopen('uploadedFiles/' . $fname, 'w');
     $contents = '';
 
@@ -31,15 +33,34 @@ function handleAsyncUploadImage() {
     fclose($output);
 
 
-    $data = array ('fname'=>$fname, 'size'=>$fsize, 'mime'=>$mimetype);
+    //
+    // PRocess thumbnail
+    //    
+    $thumbnail = file_get_contents('uploadedFiles/' . $fname);
+    $scaledThumbnail = scaleThumbnail($thumbnail, 200, 200);
 
+    $db = DB::getConnection();
+    DB::postAircraftImage(
+        $db,
+        $scaledThumbnail,
+        $mimetype,
+        $fname,
+        $craftId
+    );
+
+    //
+    // Return response
+    //
+    $data = array ('fname'=>$fname, 'size'=>$fsize, 'mime'=>$mimetype);
     echo json_encode($data);
 }
+
 
 
 // ASYNC upload image
 if ($_SERVER['HTTP_X_ORIGINALFILENAME'] 
     && $_SERVER['HTTP_X_ORIGINALFILESIZE'] 
-    && $_SERVER['HTTP_X_ORIGINALMIMETYPE']) {
+    && $_SERVER['HTTP_X_ORIGINALMIMETYPE']
+    && $_SERVER['HTTP_X_CRAFTID']) {
     handleAsyncUploadImage();
 }

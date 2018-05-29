@@ -98,8 +98,8 @@ function sendFile() {
   xhr.onreadystatechange = function(e) {
     if ( 4 == this.readyState ) {
       progress.style.display = 'none';
+      console.log(['xhr upload complete', e, e.target.response]);
       const res = JSON.parse(e.target.response);
-      console.log(['xhr upload complete', e, res]);
       // File transfer successfull
 
 
@@ -126,6 +126,14 @@ function sendFile() {
   xhr.setRequestHeader("X-OriginalFilename", file.name);
   xhr.setRequestHeader("X-OriginalFilesize", file.size);
   xhr.setRequestHeader("X-OriginalMimetype", file.type);
+ 
+  // @doc https://stackoverflow.com/a/1085810/9636402
+ 
+  let selectCraft = document.getElementById('input-fartoybilder-fartoyid')
+  let craftid =  selectCraft.options[selectCraft.selectedIndex].value;
+  console.log("Adding picture to craftid: ",craftid)
+  xhr.setRequestHeader("X-CraftId", craftid);
+  
   // Add any other information about the file to be transfered as X-......
   xhr.send(file);
 }
