@@ -34,8 +34,9 @@ function requireTwig() {
 
  /**
   * @note stolen from okolloen examples
+  * @TODO - Keep original proportions
   */ 
-function scaleThumbnail($_img, $new_width=150, $new_height=150) {
+function scaleThumbnail($_img, $max_width=150, $max_height=150) {
 
     $img = imagecreatefromstring($_img);
 
@@ -43,14 +44,14 @@ function scaleThumbnail($_img, $new_width=150, $new_height=150) {
     $old_y = imageSY($img);
 
     if($old_x > $old_y) {                     // Image is landscape mode
-        $thumb_w = $new_width;
-        $thumb_h = $old_y*($new_height/$old_x);
+        $thumb_w = $max_width;
+        $thumb_h = $old_y*($max_height/$old_x);
     } else if($old_x < $old_y) {              // Image is portrait mode
-        $thumb_w = $old_x*($new_width/$old_y);
-        $thumb_h = $new_height;
+        $thumb_w = $old_x*($max_width/$old_y);
+        $thumb_h = $max_height;
     } if($old_x == $old_y) {                  // Image is square
-        $thumb_w = $new_width;
-        $thumb_h = $new_height;
+        $thumb_w = $max_width;
+        $thumb_h = $max_height;
     }
 
     if ($thumb_w>$old_x) {                    // Don't scale images up

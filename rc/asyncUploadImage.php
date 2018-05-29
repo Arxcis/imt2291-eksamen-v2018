@@ -22,7 +22,7 @@ function handleAsyncUploadImage() {
     // Stream file from client
     //
     $handle = fopen('php://input', 'r');                // Read the file from stdin
-    $output = fopen('uploadedFiles/' . $fname, 'w');
+    $output = fopen('images/' . $fname, 'w');
     $contents = '';
 
     while (!feof($handle)) {                            // Read in blocks of 8 KB (no file size limit)
@@ -36,7 +36,7 @@ function handleAsyncUploadImage() {
     //
     // PRocess thumbnail
     //    
-    $thumbnail = file_get_contents('uploadedFiles/' . $fname);
+    $thumbnail = file_get_contents('images/' . $fname);
     $scaledThumbnail = scaleThumbnail($thumbnail, 200, 200);
 
     $db = DB::getConnection();
