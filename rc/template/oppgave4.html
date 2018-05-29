@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- TODO Brief litt med twig skills -->
+
+    <title>Eksamen - Oppgave 4</title>
+
+
+<style>
+
+input, select {
+    width: 100%;
+    display: block;
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+
+<header>
+    <h1>Last opp bilde av fartøy</h1>
+</header>
+
+
+<main>
+
+    <!-- TODO use proper paths -->
+    <form id="form-fartoybilder"
+          name="fartoybilder">
+
+
+
+<!-- SELECT FARTOY -->
+
+    <label for="input-fartoybilder-fartoyid">Fartoy:</label>
+    <select id="input-fartoybilder-fartoyid" 
+            name="fartoyid"
+            required> 
+
+
+{% for fartoy in fartoyArray %}
+        <option value="{{ fartoy.id }}">{{ fartoy.name}}</option>
+{% endfor %}
+
+    </select>
+
+<!-- SELECT FARTOY -->
+
+
+    <input type="file" 
+           id="input-fartoybilder-file"
+           name="file" 
+           required/>
+
+    <progress id="input-fartoybilder-file-progress" value="10" max="100"></progress><br>
+
+    <input id="btn-submit-fartoybilder"
+           type="submit"
+           value="Last opp bilde"/> 
+
+
+    </form>
+
+
+    <div id="uploaded-thumbnails"></div>
+
+</main>
+
+
+<script>
+
+
+// Modified OKOLLOEN Javascript_forelesning1
+
+function sendFile() {
+
+  let file = document.getElementById('input-fartoybilder-file');
+  file = file.files[0];  // First file in file input field
+
+  const progress = document.getElementById('input-fartoybilder-file-progress');
+  progress.style.display = 'block';
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.file = file; // not necessary if you create scopes like this
+  xhr.upload.onprogress = function(e) {
+
+    const done = e.loaded;
+    progress.value = (Math.floor(done/e.total*100));
+    console.log('xhr.upload progress: ' + done + ' / ' + e.total + ' = ' + (Math.floor(done/e.total*1000)/10) + '%');
+  };
+
+  xhr.onreadystatechange = function(e) {
+    if ( 4 == this.readyState ) {
+      progress.style.display = 'none';
+      const res = JSON.parse(e.target.response);
+      console.log(['xhr upload complete', e, res]);
+      // File transfer successfull
+
+
+
+      const uploadedThumbnails = document.getElementById('uploaded-thumbnails');
+
+      let hrefElement = document.createElement('a');
+      let imgElement = document.createElement('img');
+
+      hrefElement.setAttribute('href',  '/downloadedFiles/'+res.fname);
+      imgElement.setAttribute('src', '/downloadedFiles/'+res.fname);
+
+      imgElement.setAttribute('width', 200);
+      imgElement.setAttribute('height', 200);
+
+      hrefElement.appendChild(imgElement);
+      uploadedThumbnails.appendChild(hrefElement);
+
+    }
+  };
+  xhr.withCredentials = true;    // Needed to send the session id cookie
+  xhr.open('post', 'asyncUploadImage.php', true);
+  xhr.setRequestHeader("Content-Type", "application/octet-stream");
+  xhr.setRequestHeader("X-OriginalFilename", file.name);
+  xhr.setRequestHeader("X-OriginalFilesize", file.size);
+  xhr.setRequestHeader("X-OriginalMimetype", file.type);
+  // Add any other information about the file to be transfered as X-......
+  xhr.send(file);
+}
+
+// Modified OKOLLOEN Javascript_forelesning1
+
+
+
+window.addEventListener('load', e => {
+  let file = document.getElementById('btn-submit-fartoybilder');
+  file.addEventListener('click', e => {
+
+    e.preventDefault();
+    sendFile();
+  });
+})
+
+
+</script>
+</body>
+
+</html>
