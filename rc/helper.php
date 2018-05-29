@@ -34,7 +34,6 @@ function requireTwig() {
 
  /**
   * @note stolen from okolloen examples
-  * @TODO - Keep original proportions
   */ 
 function scaleThumbnail($_img, $max_width=150, $max_height=150) {
 
