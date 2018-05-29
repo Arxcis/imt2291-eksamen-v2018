@@ -13,7 +13,7 @@ class User {
 
 <h1> Login </h1>
 
-<form action="oppgave5.php" method="post">
+<form id="loginform-with-usernameandpassword" action="oppgave5.php" method="post">
 
     <label for="input-username">Username</label>
     <input type="text" 
@@ -48,7 +48,7 @@ EOT;
 <h1> Login - Confirm Verification code </h1>
 
 
-<form action="oppgave5.php" method="post">
+<form id="loginform-with-verificationcode" action="oppgave5.php" method="post">
 
     <label for="input-verification-code">Verification Code</label>
     <input type="text"
@@ -62,7 +62,7 @@ EOT;
            type="submit"
            value="Confirm code"/> <br/>
 
-           <p>(Psst, the code is $token)</p> <br/>
+           <p>(Psst, the code is <span id="verification-code-hint">$token</p>)
 </form>
 EOT;
 
@@ -74,7 +74,7 @@ EOT;
 
 <h1> You are logged in! </h1>
 
-<form action="oppgave5.php" method="post">
+<form id="logoutform" action="oppgave5.php" method="post">
     
     <input id="btn-submit-logout"
            name="logout"
@@ -85,7 +85,7 @@ EOT;
 
     }
 
-    private function generateVertificationToken($byteCount = 4) {
+    private function generateVertificationToken($byteCount = 2) {
         $bytes = random_bytes($byteCount);
         return bin2hex($bytes);
     }
@@ -149,6 +149,15 @@ EOT;
             $this->logoutForm();
             return;
         }
+
+        // Case 2.5: If verification token i set but user is not trying to verify
+        if ($_SESSION['VERIFICATION_TOKEN']) {
+            echo "Failed to verify verification code. Please try again...<br>";
+            $_SESSION['VERIFICATION_TOKEN'] = null;
+            $this->loginFormWithUsernameAndPassword();
+            return;
+        }
+
 
         // Case 3: User is trying to log in, verify credentials
         if ($_POST["username"]
