@@ -1,5 +1,6 @@
 <?php
 
+require_once(__DIR__ . "/helper.php");
 
 /**
  * Singleton class managing the connection with the database.
@@ -29,7 +30,7 @@ class DB {
 
         }
         catch (PDOException $e) {
-            echo $e->getMessage();
+            echoline($e->getMessage());
         }
     }
 
@@ -64,7 +65,7 @@ class DB {
 
         }
         catch (PDOException $e) {
-            echo $e->getMessage();
+            echoline($e->getMessage());
         }
 
         return $stmt;
@@ -96,7 +97,7 @@ class DB {
 
 
         if ($stmt->rowCount() > 0) {
-            echo "error 1 - a battery with that id already exist";
+            echoline("error 1 - a battery with that id already exist");
             return null;
         }
 
@@ -114,10 +115,42 @@ class DB {
         );
 
         if ($stmt->rowCount() !== 1) {
-            echo " error 2 - row was not inserted";
+            echoline(" error 2 - battery was not inserted into DB");
             return null;
         }
         return $id;
     }
 
+    /**
+     * Post new fartoy entry in the database
+     * @param $db - pdo database handle
+     * @param $name - name of the fartoy
+     * @param $fpv - boolean has first person view
+     * @param $kamera - boolean has kamera
+     * @return lastinsertID | null if error
+     */
+
+    public static function postFartoy($db,
+                                      $name,
+                                      $fpv,
+                                      $kamera) {
+
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "INSERT INTO aircrafts(name, fpv, camera) ".
+            "VALUES (?, ?, ?)",
+            array(
+                $name,
+                $fpv    ? 1: 0,
+                $kamera ? 1: 0
+            )
+        );
+
+        if ($stmt->rowCount() !== 1) {
+            echoline(" error 2 - fartoy was not inserted into DB");
+            return null;
+        }
+
+        return $db->lastInsertId();
+    }
 }

@@ -1,14 +1,14 @@
 <?php
 
-require_once "DB.php";
-require_once "helper.php";
+require_once __DIR__ . "/DB.php";
+require_once __DIR__ . "/helper.php";
 
 
 function postFartoyForm() {
 
     $navn   = $_POST['navn']   ?? badRequest404('navn');
-    $fpv    = $_POST['fpv']    ?? badRequest404('fpv');
-    $kamera = $_POST['kamera'] ?? badRequest404('kamera');
+    $fpv    = $_POST['fpv']    ? true: false;
+    $kamera = $_POST['kamera'] ? true: false;
 
     $db = DB::getConnection();
 
@@ -19,7 +19,6 @@ function postFartoyForm() {
         $kamera
     );
 
-//   var_dump($id, $cellCount, $capacity, $maxDischarge, $date);
 }
 
 if (!empty($_POST)) {
@@ -27,9 +26,10 @@ if (!empty($_POST)) {
 
     if (!$insertedId) {
         serverError500();
+        echoline('Could not insert fartoy into database (!$insertedId)');
+    } else {
+        echoline("Inserted battery with id: " . $insertedId);
     }
-
-    echo "inserted battery with id: " . $insertedId;
 }
 
 $twig = requireTwig();
