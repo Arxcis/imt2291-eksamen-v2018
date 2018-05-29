@@ -1,4 +1,9 @@
 
+## 2018-05-30
+
+flexbox guide - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+
 ## 2018-05-29
 
 html forms - https://www.w3schools.com/html/html_forms.asp
