@@ -20,7 +20,7 @@ function handleAsyncUploadImage() {
     // with same file name can be uploaded and will not overwrite each other.
     // - JSolsvik 29.05.2018
     //
-    $output = fopen('downloadedFiles/' . $fname, 'w');
+    $output = fopen('uploadedFiles/' . $fname, 'w');
     $contents = '';
 
     while (!feof($handle)) {                            // Read in blocks of 8 KB (no file size limit)
