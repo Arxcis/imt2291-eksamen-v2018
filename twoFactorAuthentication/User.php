@@ -13,7 +13,7 @@ class User {
 
 <h1> Login </h1>
 
-<form id="loginform-with-usernameandpassword" action="oppgave5.php" method="post">
+<form id="loginform-with-usernameandpassword" action="oppgave5-loginuser.php" method="post">
 
     <label for="input-username">Username</label>
     <input type="text" 
@@ -48,7 +48,7 @@ EOT;
 <h1> Login - Confirm Verification code </h1>
 
 
-<form id="loginform-with-verificationcode" action="oppgave5.php" method="post">
+<form id="loginform-with-verificationcode" action="oppgave5-loginuser.php" method="post">
 
     <label for="input-verification-code">Verification Code</label>
     <input type="text"
@@ -74,7 +74,7 @@ EOT;
 
 <h1> You are logged in! </h1>
 
-<form id="logoutform" action="oppgave5.php" method="post">
+<form id="logoutform" action="oppgave5-loginuser.php" method="post">
     
     <input id="btn-submit-logout"
            name="logout"

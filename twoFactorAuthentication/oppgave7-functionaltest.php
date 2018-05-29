@@ -24,7 +24,7 @@ class Oppgave7_UserClassTests extends TestCase {
         $this->session = new \Behat\Mink\Session($driver);
         $this->session->start();
 
-        $this->session->visit("http://localhost:4000/oppgave5.php");
+        $this->session->visit("http://localhost:4000/oppgave5-loginuser.php");
     }
 
 
