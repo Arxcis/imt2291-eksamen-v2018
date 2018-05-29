@@ -14,3 +14,5 @@ input time - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tim
 twig length filter - https://twig.symfony.com/doc/2.x/filters/length.html
 
 get value of select element - https://stackoverflow.com/a/1085810/9636402
+
+create thumbnail from javascript file API - https://stackoverflow.com/questions/7460272/getting-image-dimensions-using-javascript-file-api
