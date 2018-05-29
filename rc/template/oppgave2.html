@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- TODO Brief litt med twig skills -->
+
+<title>Eksamen - Oppgave 2</title>
+<style>
+    input {
+        width: 100%;
+        display: block;
+    }
+</style>
+
+
+
+</head>
+<body>
+
+
+<header>
+    <h1>Registrer nytt fartøy</h1>
+</header>
+
+
+<main>
+
+    <!-- TODO use proper paths -->
+    <form action="oppgave2.php" 
+          method="post"
+          id="form-fartoy"
+          name="battery"
+          autocomplete>
+
+    <label for="input-fartoy-navn">Navn:</label>
+    <input id="input-fartoy-navn" 
+           type="text" 
+           name="navn"
+           placeholder="Cessna"
+           required/>
+
+
+    <label for="input-fartoy-fpv">FPV:</label>
+    <input id="input-fartoy-fpv" 
+           type="checkbox" 
+           name="fpv"
+           required/>
+
+
+
+    <label for="input-fartoy-kamera">Kamera:</label>
+    <input id="input-fartoy-kamera" 
+           type="checkbox" 
+           name="kamera"
+           required/>
+
+
+    <input id="btn-submit-fartoy"
+           type="submit"
+           value="Lagre informasjon"/> 
+
+    </form>
+
+</main>
+
+
+</body>
+</html>
