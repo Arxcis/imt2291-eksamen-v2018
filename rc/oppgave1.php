@@ -1,7 +1,68 @@
+<?php
+
+require_once "DB.php";
+
+function badRequest404($key) {
+
+    echo "ERROR - Bad Request 404. Missing: " . $key;
+    die();
+}
+
+function serverError500() {
+
+    echo "ERROR - Server Error";
+    die();   
+}
+
+function postBatteryForm() {
+
+    $id           = $_POST['id']            ?? badRequest404('id');
+    $cellCount    = $_POST['cell-count']    ?? badRequest404('cell-count');
+    $capacity     = $_POST['capacity']      ?? badRequest404('capacity');
+    $maxDischarge = $_POST['max-discharge'] ?? badRequest404('max-discharge');
+    $date         = $_POST['date']          ?? badRequest404('date');
+
+    $db = DB::getConnection();
+
+    return DB::postBattery(
+        $db,
+        $id,
+        $cellCount,
+        $capacity,
+        $maxDischarge,
+        $date
+    );
+
+//   var_dump($id, $cellCount, $capacity, $maxDischarge, $date);
+}
+
+if (!empty($_POST)) {
+    $insertedId = postBatteryForm();
+
+    if (!$insertedId) {
+        serverError500();
+    }
+
+    echo "inserted battery with id: " . $insertedId;
+}
+
+?>  
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Eksamen - Oppgave 1</title>
+
+
+<title>Eksamen - Oppgave 1</title>
+<style>
+    input {
+        width: 100%;
+        display: block;
+    }
+</style>
+
+
+
 </head>
 <body>
 
@@ -17,7 +78,8 @@
     <form action="oppgave1.php" 
           method="post"
           id="form-battery"
-          name="battery">
+          name="battery"
+          autocomplete>
 
     <label for="input-battery-id">ID:</label>
     <input id="input-battery-id" 
@@ -61,12 +123,14 @@
            required/>
 
 
-    <!-- TODO Set default value of date to date.now() using javascript -->
     <label for="input-battery-date">Date:</label>
     <input id="input-battery-date" 
            type="date" 
            name="date"
-           placeholder="dd.mm.yyyy"
+           value="2018-05-29"
+           min="1970-01-01" 
+           max="2099-01-01"
+           placeholder="2018-05-29"
            required/>
 
 
