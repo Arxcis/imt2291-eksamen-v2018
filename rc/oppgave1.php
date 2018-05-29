@@ -1,18 +1,7 @@
 <?php
 
-require_once "DB.php";
-
-function badRequest404($key) {
-
-    echo "ERROR - Bad Request 404. Missing: " . $key;
-    die();
-}
-
-function serverError500() {
-
-    echo "ERROR - Server Error";
-    die();   
-}
+require_once __DIR__ . "/DB.php";
+require_once __DIR__ . "/helper.php";
 
 function postBatteryForm() {
 
