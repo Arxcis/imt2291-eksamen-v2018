@@ -1,1 +1,107 @@
-oppgave3
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- TODO Brief litt med twig skills -->
+
+<title>Eksamen - Oppgave 3</title>
+<style>
+    input, select {
+        width: 100%;
+        display: block;
+    }
+</style>
+
+
+
+</head>
+<body>
+
+
+<header>
+    <h1>Registrer batteristatus</h1>
+</header>
+
+
+<main>
+
+    <!-- TODO use proper paths -->
+    <form action="oppgave3.php" 
+          method="post"
+          id="form-batteristatus"
+          name="batteristatus"
+          autocomplete>
+
+    <label for="input-batteristatus-batteri">Batteripakke:</label>
+    <select id="input-batteristatus-batteri" 
+            name="batteri"
+            size=5
+            autofocus
+            required> 
+
+        <option value="bla" selected> bla0</option>
+        <option value="bla1">bla1</option>
+        <option value="bla2">bla2</option>
+        <option value="bla3">bla3</option>
+        <option value="bla4">bla4</option>
+    </select>
+
+
+
+
+    <label for="input-batteristatus-fartoy">Fartoy:</label>
+    <select id="input-batteristatus-fartoy" 
+            name="fartoy"
+            size=5
+            required> 
+
+        <option value="bla0" selected>bla0</option>
+        <option value="bla1">bla1</option>
+        <option value="bla2">bla2</option>
+        <option value="bla3">bla3</option>
+        <option value="bla4">bla4</option>
+    </select>
+
+
+    <!-- TODO regex this -->
+    <label for="input-batteristatus-flytid">Flytid:</label>
+    <input id="input-batteristatus-flytid"
+            type="text"
+            name="flytid"
+            value="00:00:00"
+            placeholder="12:04:36" 
+            required/>
+
+
+    <label for="input-batteristatus-kapasitet">Gjennværende kapasitet:</label>
+    <input id="input-batteristatus-kapasitet"
+            type="number"
+            min=0
+            max=100
+            name="kapasitet"
+            placeholder="0-100%"
+            required/>
+
+    <label for="input-batteristatus-date">Date:</label>
+    <input id="input-batteristatus-date" 
+           type="date" 
+           name="date"
+           value="2018-05-29"
+           min="1970-01-01" 
+           max="2099-01-01"
+           placeholder="2018-05-29"
+           required/>
+
+    <input id="btn-submit-fartoy"
+           type="submit"
+           value="Lagre informasjon"/> 
+
+
+    </form>
+
+</main>
+
+
+</body>
+</html>

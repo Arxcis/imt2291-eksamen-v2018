@@ -77,6 +77,7 @@ if (!empty($_POST)) {
            min=1
            max=1000
            placeholder="1-1000"
+           autofocus
            required/>
 
 
@@ -112,6 +113,7 @@ if (!empty($_POST)) {
            required/>
 
 
+    <!-- TODO - proper regex for date -->
     <label for="input-battery-date">Date:</label>
     <input id="input-battery-date" 
            type="date" 

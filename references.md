@@ -7,3 +7,6 @@ $var ?? "something" - https://stackoverflow.com/a/18603279/9636402
 
 input checkbox - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 lastinsertid PDO - http://php.net/manual/en/pdo.lastinsertid.php
+
+select element - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+input time - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
