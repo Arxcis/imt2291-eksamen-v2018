@@ -3,6 +3,7 @@
 define(HARDCODED_USER, "user");
 define(HARDCODED_PASSWORD, "pwd");
 
+
 class User {
 
     private function loginFormWithUsernameAndPassword() {
@@ -104,6 +105,11 @@ EOT;
             return true;
         }
         return null;
+    }
+
+
+    public function __construct() {
+
     }
 
     public function loginForm() { 
