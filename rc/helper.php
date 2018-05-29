@@ -9,6 +9,7 @@ function echoline($line) {
 
 function badRequest404($key) {
     echoline("ERROR - Bad Request 404. Missing: " . $key);
+    die();
 }
 
 function serverError500() {

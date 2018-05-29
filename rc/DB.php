@@ -56,7 +56,7 @@ class DB {
      * @param  $param - array of parameters matching the sql string
      * @return $stmt - executed statement
      */
-    private static function prepareThenExecute($db, $sql, $param) {
+    private static function prepareThenExecute($db, $sql, $param = array()) {
     
         try {        
         
@@ -129,7 +129,6 @@ class DB {
      * @param $kamera - boolean has kamera
      * @return lastinsertID | null if error
      */
-
     public static function postFartoy($db,
                                       $name,
                                       $fpv,
@@ -147,10 +146,78 @@ class DB {
         );
 
         if ($stmt->rowCount() !== 1) {
-            echoline(" error 2 - fartoy was not inserted into DB");
+            echoline(" error 1 - fartoy was not inserted into DB");
             return null;
         }
 
         return $db->lastInsertId();
     }
+
+
+    /**
+     * Post new batteristatus
+     * @param $db - pdo database handle
+     * @param $batteryId - id of battery 
+     * @param $fartoyId  - id of fartoy
+     * @param $flighttime - time in hh:mm:ss
+     * @param $capacityPercent - between 0 - 100%
+     * @param $date -  2018-05-29
+     * @return lastinsertID | null
+     */
+    public static function postBatteryStatus($db,
+                                             $batteryId,
+                                             $fartoyId,
+                                             $flightTime,
+                                             $capacityPercent,
+                                             $date) {
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "INSERT INTO batteryStatus (craftid, batteryid, flightTime, capacityRemaining, flightDate) ".
+            "VALUES(?, ?, ?, ?, ?)",
+            array(
+                $fartoyId,
+                $batteryId,
+                $flightTime,
+                $capacityPercent,
+                $date
+            )
+        );
+
+        if ($stmt->rowCount() !== 1) {
+            echoline(" error 1 - Batterystatus was not inserted into DB");
+            return null;
+        }
+
+        return $db->lastInsertId();
+    }
+
+    /**
+     * Get all battery entries
+     * @param $db - pdo database handle
+     * @return array of battery
+     */
+    public static function getAllBattery($db) {
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "SELECT * FROM batteries"
+        );
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Get all fartoy entriers
+     * @param $db - pdo database handle
+     * @return array of fartoy
+     */
+    public static function getAllFartoy($db) {
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "SELECT * FROM aircrafts"
+        );
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);        
+    }
+
+
+
+
 }

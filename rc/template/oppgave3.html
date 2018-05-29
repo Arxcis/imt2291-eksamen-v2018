@@ -5,12 +5,16 @@
 
 <!-- TODO Brief litt med twig skills -->
 
-<title>Eksamen - Oppgave 3</title>
+    <title>Eksamen - Oppgave 3</title>
+
+
 <style>
-    input, select {
-        width: 100%;
-        display: block;
-    }
+
+input, select {
+    width: 100%;
+    display: block;
+}
+
 </style>
 
 
@@ -33,53 +37,65 @@
           name="batteristatus"
           autocomplete>
 
-    <label for="input-batteristatus-batteri">Batteripakke:</label>
-    <select id="input-batteristatus-batteri" 
-            name="batteri"
-            size=5
+
+
+<!-- SELECT BATTERY -->
+
+    <label for="input-batteristatus-batteryid">Batteripakke:</label>
+    <select id="input-batteristatus-batteryid" 
+            name="batteryid"
             autofocus
             required> 
 
-        <option value="bla" selected> bla0</option>
-        <option value="bla1">bla1</option>
-        <option value="bla2">bla2</option>
-        <option value="bla3">bla3</option>
-        <option value="bla4">bla4</option>
+
+{% for battery in batteryArray %}
+        <option value="{{ battery.id }}"> # {{ battery.id }} 
+                                          - {{ battery.cells}}cell
+                                          / {{ battery.capacity }} mAh</option>
+{% endfor %}
+
     </select>
 
+<!-- SELECT BATTERY -->
 
 
+<!-- SELECT FARTOY -->
 
-    <label for="input-batteristatus-fartoy">Fartoy:</label>
-    <select id="input-batteristatus-fartoy" 
-            name="fartoy"
-            size=5
+
+    <label for="input-batteristatus-fartoyid">Fartoy:</label>
+    <select id="input-batteristatus-fartoyid" 
+            name="fartoyid"
             required> 
 
-        <option value="bla0" selected>bla0</option>
-        <option value="bla1">bla1</option>
-        <option value="bla2">bla2</option>
-        <option value="bla3">bla3</option>
-        <option value="bla4">bla4</option>
+
+{% for fartoy in fartoyArray %}
+        <option value="{{ fartoy.id }}">{{ fartoy.name}}</option>
+{% endfor %}
+
     </select>
+
+<!-- SELECT FARTOY -->
+
+
+
 
 
     <!-- TODO regex this -->
-    <label for="input-batteristatus-flytid">Flytid:</label>
-    <input id="input-batteristatus-flytid"
+    <label for="input-batteristatus-flighttime">Flytid:</label>
+    <input id="input-batteristatus-flighttime"
             type="text"
-            name="flytid"
+            name="flighttime"
             value="00:00:00"
             placeholder="12:04:36" 
             required/>
 
 
-    <label for="input-batteristatus-kapasitet">Gjennværende kapasitet:</label>
-    <input id="input-batteristatus-kapasitet"
+    <label for="input-batteristatus-capacity">Gjennværende kapasitet:</label>
+    <input id="input-batteristatus-capacity"
             type="number"
             min=0
             max=100
-            name="kapasitet"
+            name="capacity"
             placeholder="0-100%"
             required/>
 

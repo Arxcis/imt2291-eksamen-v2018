@@ -10,3 +10,5 @@ lastinsertid PDO - http://php.net/manual/en/pdo.lastinsertid.php
 
 select element - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 input time - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+
+twig length filter - https://twig.symfony.com/doc/2.x/filters/length.html
