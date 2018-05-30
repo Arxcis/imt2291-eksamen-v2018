@@ -9,6 +9,11 @@
       :host {
         display: block;
       }
+      p#p-value {
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        height: 20px;
+      }
     </style>
     <h2>Oppgave11 - Tree view</h2>
 
@@ -26,7 +31,7 @@
 <br>
 
     Path: [[path]]<br>
-    Value: [[value]]
+    <p id="p-value">Value: [[value]] </p>
     
   </template>
 

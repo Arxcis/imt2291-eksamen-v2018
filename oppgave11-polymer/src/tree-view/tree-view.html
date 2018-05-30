@@ -46,6 +46,7 @@
           selectedValue: {
             type: String,
             value: "...",
+            computed: '_computeSelectedValue(selectedPath, data)',
             notify: true
           },
           dataview: {
@@ -54,6 +55,18 @@
         };
       }
 
+
+      _computeSelectedValue(selectedPath, data) {
+
+        let parts = selectedPath.split('.').slice(1) // ignore root
+
+        let value = data;
+        parts.map(part => {
+          value = value[part]
+        })
+
+        return JSON.stringify(value);
+      }
 
       _addNodeClickListener(node) {
         node.addEventListener('click', e => {
