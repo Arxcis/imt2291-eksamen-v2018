@@ -86,7 +86,7 @@ OK (4 tests, 10 assertions)
 
 **1. Run a web server in ./YouTubeSearch**
 ```
-cd ./twoFactorAuthentication
+cd ./YouTubeSearch
 php -S localhost:4000
 ```
 
