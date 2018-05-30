@@ -39,6 +39,20 @@ input, select {
           name="batteristatus"
           autocomplete>
 
+<!-- SELECT CELLCOUNT -->
+
+    <label  for="input-batteristatus-cellcount">Batteripakke:</label>
+    <select id="input-batteristatus-cellcount" 
+            name="batteryid"
+            autofocus
+            required> 
+
+
+
+    </select>
+
+
+<!-- SELECT CELLCOUNT -->
 
 
 <!-- SELECT BATTERY -->
@@ -46,7 +60,6 @@ input, select {
     <label for="input-batteristatus-batteryid">Batteripakke:</label>
     <select id="input-batteristatus-batteryid" 
             name="batteryid"
-            autofocus
             required> 
 
 
@@ -116,15 +129,14 @@ input, select {
 <script>
   
 
-
-function fetchBatteries() {
-  return fetch("/api/getAllBatteries.php")
+function fetchFartoys () {
+  return fetch("/api/getAllAircraft.php")
     .then(res => { return res.json()})
     .catch(err => { console.log(err); return err; })
 }
 
-function fetchFartoys () {
-  return fetch("/api/getAllAircraft.php")
+function fetchBatteries() {
+  return fetch("/api/getAllBatteries.php")
     .then(res => { return res.json()})
     .catch(err => { console.log(err); return err; })
 }
@@ -136,6 +148,7 @@ function fetchFartoys () {
                                           / {{ battery.capacity }} mAh</option>
 {% endfor %}
 */
+
 function populateSelectBattery(batteries) {
 
     let selectBatteryElement = document.getElementById('input-batteristatus-batteryid')
@@ -157,6 +170,7 @@ function populateSelectBattery(batteries) {
         <option value="{{ fartoy.id }}">{{ fartoy.name}}</option>
 {% endfor %}
 */
+
 function populateSelectFartoy(fartoys) {
  
 
@@ -173,12 +187,36 @@ function populateSelectFartoy(fartoys) {
 }
 
 
+
+function populateSelectCellCount(maxCellCount = 24) {
+
+    let selectCellcountElement = document.getElementById('input-batteristatus-cellcount')
+    
+    for(let i = 1; i <= maxCellCount; ++i){
+  
+        let option = document.createElement('option');
+        option.value = i
+        option.innerHTML = i
+
+        if (i == 3) {
+          option.selected = true;
+        }
+        selectCellcountElement.appendChild(option)
+    }
+}
+
 window.addEventListener('load', e => {
+  
+  populateSelectCellCount()
+
   fetchFartoys()
   .then(fartoys => populateSelectFartoy(fartoys))
   
   fetchBatteries()
   .then(batteries => populateSelectBattery(batteries))
+
+
+
 })
 
 

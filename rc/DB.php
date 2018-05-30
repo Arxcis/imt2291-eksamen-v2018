@@ -235,7 +235,9 @@ class DB {
     public static function getAllBattery($db) {
         $stmt = DB::prepareThenExecute(
             $db,
-            "SELECT * FROM batteries"
+            // @note
+            // ORDER BY DESC to satisify requirements in oppgave 9
+            "SELECT * FROM batteries ORDER BY capacity DESC, id"
         );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
