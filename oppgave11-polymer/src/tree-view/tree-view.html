@@ -6,10 +6,13 @@
     <style>
       :host {
         display: block;
+        border: 1px solid black;
+        margin: 10px;
+        padding: 10px;
       }
     </style>
 
-    <pre>Wuhuuu</pre>
+  <span id="rootnode" class="tree-node" data-path="root"></span>
 
   </template>
 
@@ -27,23 +30,59 @@
         return {
           data: {
             type: Object,
-            observer: '_incommingData'
+            observer: '_processData',
           },
           selectedPath: {
             type: String,
-            value: "..."
+            value: "root"
           },
           selectedValue: {
             type: String,
             value: "..."
+          },
+          dataview: {
+            type: String
           }
         };
       }
 
-      _incommingData(newval, oldval) {
-        console.log(newval) 
+
+      _addNodeClickListener(node) {
+        node.addEventListener('click', e => {
+          this.selectedPath = e.target.getAttribute('data-path')
+          console.log(this.selectedPath)
+        })
       }
 
+
+      _processData(updatedData) {
+        console.log(updatedData) 
+        let rootNode = this.$.rootnode;
+        rootNode.innerHTML = ''
+        this._addNodeClickListener(rootNode);
+        this._layoutNearestChildren(rootNode, updatedData)
+      }
+
+      _layoutNearestChildren(parent, json) {
+        
+
+
+        Object.keys(json).map(e => {        
+
+          let span = document.createElement('span')
+          span.innerHTML = `${e}`
+          span.setAttribute('data-path', `${parent.getAttribute('data-path')}.${e}`)
+
+          if (!`${parent.getAttribute('data-path')}.${e}`.includes(this.selectedPath)) {
+            return;
+          }
+
+          this._addNodeClickListener(span)
+          parent.appendChild(span)
+          parent.innerHTML += ':<br>'
+        });
+
+      }
     }
 
     window.customElements.define(TreeView.is, TreeView);
