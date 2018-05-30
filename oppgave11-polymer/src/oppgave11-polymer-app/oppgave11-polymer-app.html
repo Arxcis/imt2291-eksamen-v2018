@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../tree-view/tree-view.html">
+
+<dom-module id="oppgave11-polymer-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Oppgave11 - Tree view</h2>
+
+
+    <iron-ajax
+          auto
+          url="https://randomuser.me/api/?results=3"
+          handle-as="json"
+          last-response="{{response}}"></iron-ajax>
+
+    <tree-view selected-path="{{path}}" 
+               selected-value="{{value}}" 
+               data="{{response}}"></tree-view>
+
+    Path: [[path]]<br>
+    Value: [[value]]
+    
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class Oppgave11PolymerApp extends Polymer.Element {
+      static get is() { return 'oppgave11-polymer-app'; }
+      static get properties() {
+        return {
+          response: {
+            type: Object,
+          },
+          path: {
+            type: String,
+          },
+          value: {
+            type: String,
+          }
+        };
+      }
+    }
+
+    window.customElements.define(Oppgave11PolymerApp.is, Oppgave11PolymerApp);
+  </script>
+</dom-module>

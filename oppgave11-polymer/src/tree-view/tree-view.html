@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+
+<dom-module id="tree-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <pre>Wuhuuu</pre>
+
+  </template>
+
+  <script>
+
+
+    /**
+     * @customElement
+     * @polymer
+     */
+    class TreeView extends Polymer.Element {
+
+      static get is() { return 'tree-view'; }
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            observer: '_incommingData'
+          },
+          selectedPath: {
+            type: String,
+            value: "..."
+          },
+          selectedValue: {
+            type: String,
+            value: "..."
+          }
+        };
+      }
+
+      _incommingData(newval, oldval) {
+        console.log(newval) 
+      }
+
+    }
+
+    window.customElements.define(TreeView.is, TreeView);
+  </script>
+</dom-module>
