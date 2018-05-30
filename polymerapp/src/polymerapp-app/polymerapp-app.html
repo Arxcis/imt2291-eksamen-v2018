@@ -1,5 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 
 
 <dom-module id="polymerapp-app">
@@ -9,14 +12,25 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <h2>Oppgave 10 - Fartoy dropdown</h2>
 
 
 <iron-ajax
     auto
     url="http://localhost:4000/api/getallfartoy.php"
     handle-as="json"
-    on-response="handleResponse"></iron-ajax>
+    on-response="_handleResponse"></iron-ajax>
+
+
+  <paper-dropdown-menu label="Velg fartoy">
+      <paper-listbox slot="dropdown-content" class="dropdown-content">
+
+      <template is="dom-repeat" items="[[aircrafts]]">
+             <paper-item> [[item.name]]</paper-item>
+      </template>
+
+     </paper-listbox>
+  </paper-dropdown-menu>
 
 
   </template>
@@ -29,18 +43,34 @@
      * @polymer
      */
     class PolymerappApp extends Polymer.Element {
+
       static get is() { return 'polymerapp-app'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'polymerapp-app'
+          aircrafts: {
+            type: Array,
           }
+
         };
       }
 
-      handleResponse(e) { 
-        console.log(e.detail.response)
+      _handleResponse(e) { 
+        this.aircrafts = e.detail.response
+        console.log(this.aircrafts)
+      }
+
+
+      // @note
+      // To remove errors when clicking on dropdown this function has to be overriden
+      show() {
+        this.$.animatable.animate([
+          {transform:'translateY(0)', opacity: 1, easing: 'ease-out'},
+          {transform:'translateY(100%)', opacity: 1, easing: 'ease-in'},
+          {transform:'translateY(100%)', opacity: 0 }
+        ],
+        {
+          duration: 1500,
+        });
       }
 
     }

@@ -254,6 +254,18 @@ class DB {
     }
 
 
+    /**
+     * Get all aircraft images
+     * @param $db - pdo database handle
+     * @return array of aircraft images
+     */
+    public static function getAircraftImages($db) {
+        $stmt = DB::prepareThenExecute(
+            $db,
+            "SELECT * FROM aircraftImages"
+        );
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);        
+    }
 
 
 }

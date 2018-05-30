@@ -1,7 +1,7 @@
 <?php
 
 
-require_once __DIR__ . "/../DB.php";
+require_once __DIR__ . "/DB.php";
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, X-OriginalMimetype, X-OriginalFilename, X-OriginalFilesize');
@@ -10,6 +10,6 @@ header('Content-Type: application/json');
 
 
 $db = DB::getConnection();
-$aircraftImages = DB::getAircraftImages($db);
+$allfartoy = DB::getAllFartoy($db);
 
-echo json_encode($aircraftImages);
+echo json_encode($allfartoy);
