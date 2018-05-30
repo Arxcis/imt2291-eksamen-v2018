@@ -53,6 +53,8 @@ Time: 54 ms, Memory: 4.00MB
 OK (3 tests, 5 assertions)
 ```
 
+
+
 #### Oppgave 7 - functionaltest
 
 **1. Start webserver in ./twoFactorAuthentication**
@@ -62,19 +64,22 @@ $ php -S localhost:4000
 Listening on http://localhost:4000
 Document root is /Users/jsolsvik/git/arxcis/exam-wwwtek/twoFactorAuthentication
 Press Ctrl-C to quit.
-````
+
+```
+
 
 **2. While server is running run functionaltest**
 ```
-$ ./vendor/bin/phpunit oppgave7-functionaltest.php 
+./vendor/bin/phpunit oppgave7-functionaltest.php 
 PHPUnit 7.1.5 by Sebastian Bergmann and contributors.
 
-....                                                                4 / 4 (100%)
+(100%)
 
 Time: 80 ms, Memory: 6.00MB
 
 OK (4 tests, 10 assertions)
 ```
+
 
 
 #### Oppgave 8 - videoviewer
