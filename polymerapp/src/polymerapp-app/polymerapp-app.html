@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="polymerapp-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+
+
+<iron-ajax
+    auto
+    url="http://localhost:4000/api/getallfartoy.php"
+    handle-as="json"
+    on-response="handleResponse"></iron-ajax>
+
+
+  </template>
+
+  <script>
+
+
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PolymerappApp extends Polymer.Element {
+      static get is() { return 'polymerapp-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'polymerapp-app'
+          }
+        };
+      }
+
+      handleResponse(e) { 
+        console.log(e.detail.response)
+      }
+
+    }
+
+    window.customElements.define(PolymerappApp.is, PolymerappApp);
+  </script>
+</dom-module>

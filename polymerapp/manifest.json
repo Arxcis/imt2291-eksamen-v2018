@@ -1,0 +1,7 @@
+{
+  "name": "polymerapp",
+  "short_name": "polymerapp",
+  "description": "oppgave10-eksamen",
+  "start_url": "/",
+  "display": "standalone"
+}
