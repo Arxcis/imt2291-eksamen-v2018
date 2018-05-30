@@ -33,27 +33,25 @@
 
 
 
-  <template is="dom-repeat" items="[[aircraftImages]]">
-      
-      <img src="data:image/png;base64,[[item.media]]"/>
+      <template is="dom-repeat" items="[[aircraftImages]]">
+          
+          <img src="data:image/png;base64,[[item.media]]"/>
 
-  </template>
+      </template>
+     
 
-
-
-
-<iron-ajax
-    auto
-    url="http://localhost:4000/api/getAllAircraft.php"
-    handle-as="json"
-    on-response="_handleAllAircraft"></iron-ajax>
+    <iron-ajax
+        auto
+        url="http://localhost:4000/api/getAllAircraft.php"
+        handle-as="json"
+        last-response="{{aircrafts}}"></iron-ajax>
 
 
-<iron-ajax
-    auto
-    url="http://localhost:4000/api/getAllAircraftImages.php?id=[[selectedAircraftId]]"
-    handle-as="json"
-    on-response="_handleAllAircraftImages"></iron-ajax>
+    <iron-ajax
+        auto
+        url="http://localhost:4000/api/getAllAircraftImages.php?id=[[selectedAircraftId]]"
+        handle-as="json"
+        last-response="{{aircraftImages}}"></iron-ajax>
 
   </template>
 
@@ -87,16 +85,6 @@
 
       _aircraftIndexToId(selected) {
         return this.aircrafts[selected].id
-      }
-
-      _handleAllAircraft(e) { 
-        this.aircrafts = e.detail.response
-        console.log(this.aircrafts)
-      }
-
-      _handleAllAircraftImages(e) {
-        this.aircraftImages = e.detail.response
-        console.log(this.aircraftImages)
       }
 
       // @note
