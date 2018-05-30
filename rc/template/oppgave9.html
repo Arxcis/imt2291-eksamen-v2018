@@ -26,6 +26,8 @@ input, select {
 
 
 <header>
+    <p id="status-text"> </p>
+
     <h1>Registrer batteristatus</h1>
 </header>
 
@@ -33,9 +35,7 @@ input, select {
 <main>
 
     <!-- TODO use proper paths -->
-    <form action="oppgave3.php" 
-          method="post"
-          id="form-batteristatus"
+    <form id="form-batteristatus"
           name="batteristatus"
           autocomplete>
 
@@ -124,8 +124,6 @@ input, select {
     </form>
 
 </main>
-
-
 <script>
   
 
@@ -141,6 +139,37 @@ function fetchBatteries() {
     .catch(err => { console.log(err); return err; })
 }
 
+
+function postBatteryStatus() {
+
+    let inputValue = id => { return document.getElementById(id).value; };
+
+    let formData = new FormData();
+
+    formData.append('batteryid', inputValue('input-batteristatus-batteryid'))
+    formData.append('fartoyid',  inputValue('input-batteristatus-fartoyid'))
+
+    formData.append('flighttime', inputValue('input-batteristatus-flighttime'))
+    formData.append('capacity',   inputValue('input-batteristatus-capacity'))
+    formData.append('date',       inputValue('input-batteristatus-date'))
+
+    fetch("/api/postBatteriStatus.php", {
+        body: formData,
+        method: 'POST'
+    })
+    .then(res => { 
+      console.log(res); 
+      return res.json();
+    })
+    .then(res => {
+      console.log(res)
+
+      let statusText = document.getElementById('status-text')
+      statusText.innerHTML = `Inserted batterystatus to database with ID: ${res.id}`;
+    })
+    .catch(err => console.log(err))
+}
+
 /*
 {% for battery in batteryArray %}
         <option value="{{ battery.id }}"> # {{ battery.id }} 
@@ -149,11 +178,14 @@ function fetchBatteries() {
 {% endfor %}
 */
 
-function populateSelectBattery(batteries) {
+function populateSelectBattery(batteries, cellcountFilter = 3) {
 
     let selectBatteryElement = document.getElementById('input-batteristatus-batteryid')
+    selectBatteryElement.innerHTML = "";
 
-    batteries.map(battery => {
+    batteries
+    .filter(battery => cellcountFilter == battery.cells)
+    .map(battery => {
       let option = document.createElement('option');
 
       option.value = battery.id
@@ -172,9 +204,9 @@ function populateSelectBattery(batteries) {
 */
 
 function populateSelectFartoy(fartoys) {
- 
 
     let selectFartoyElement = document.getElementById('input-batteristatus-fartoyid')
+    selectFartoyElement.innerHTML = "";
 
     fartoys.map(fartoy => {
       let option = document.createElement('option');
@@ -191,7 +223,8 @@ function populateSelectFartoy(fartoys) {
 function populateSelectCellCount(maxCellCount = 24) {
 
     let selectCellcountElement = document.getElementById('input-batteristatus-cellcount')
-    
+    selectCellcountElement.innerHTML = ""
+
     for(let i = 1; i <= maxCellCount; ++i){
   
         let option = document.createElement('option');
@@ -205,18 +238,46 @@ function populateSelectCellCount(maxCellCount = 24) {
     }
 }
 
+
+let cacheFartoys = {}
+let cacheBatteries = {}
+
 window.addEventListener('load', e => {
   
   populateSelectCellCount()
 
   fetchFartoys()
-  .then(fartoys => populateSelectFartoy(fartoys))
+  .then(fartoys => {
+    cacheFartoys = fartoys
+    populateSelectFartoy(fartoys)
+  })
   
   fetchBatteries()
-  .then(batteries => populateSelectBattery(batteries))
+  .then(batteries => {
+    cacheBatteries = batteries
+    populateSelectBattery(batteries)
+  })
+
+  //
+  // Handle change in selected cell count
+  //
+  let selectCellcountElement = document.getElementById('input-batteristatus-cellcount')
+  selectCellcountElement.addEventListener('change', e => {
+    console.log(e.target.value)
+
+    populateSelectBattery(cacheBatteries, e.target.value)
+  })
 
 
+  //
+  // AJAX post form + preventdefault behaviour
+  //
+  let formBatteystatus = document.getElementById('form-batteristatus')
 
+  formBatteystatus.addEventListener('submit', e => {
+    e.preventDefault();
+    postBatteryStatus();
+  })
 })
 
 
