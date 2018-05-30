@@ -1,4 +1,3 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
 
 <dom-module id="tree-view">
@@ -9,6 +8,11 @@
         border: 1px solid black;
         margin: 10px;
         padding: 10px;
+      }
+
+      .tree-node {
+        cursor: pointer;
+        display: inline;
       }
     </style>
 
@@ -30,15 +34,19 @@
         return {
           data: {
             type: Object,
-            observer: '_processData',
+            observer: '_refreshLayout',
+            value: {}
           },
           selectedPath: {
             type: String,
-            value: "root"
+            value: "root",
+            notify: true,
+            observer: '_refreshLayout'
           },
           selectedValue: {
             type: String,
-            value: "..."
+            value: "...",
+            notify: true
           },
           dataview: {
             type: String
@@ -49,42 +57,79 @@
 
       _addNodeClickListener(node) {
         node.addEventListener('click', e => {
-          this.selectedPath = e.target.getAttribute('data-path')
-          console.log(this.selectedPath)
+          if (e.target.hasAttribute('data-path'))
+            this.selectedPath = e.target.getAttribute('data-path')
         })
       }
 
 
-      _processData(updatedData) {
-        console.log(updatedData) 
+      _refreshLayout() {
         let rootNode = this.$.rootnode;
         rootNode.innerHTML = ''
         this._addNodeClickListener(rootNode);
-        this._layoutNearestChildren(rootNode, updatedData)
+        this._layoutNearestChildren(rootNode, this.data)
+
+        console.log(this.data)
       }
 
-      _layoutNearestChildren(parent, json) {
-        
+      _layoutNearestChildren(parent, json, level = 1) {
+      
+        let curentPadding = `0px 0px 0px ${20*level}px`
 
+        parent.innerHTML += '<br>'
 
-        Object.keys(json).map(e => {        
+        Object.keys(json).map(e => {    
 
-          let span = document.createElement('span')
-          span.innerHTML = `${e}`
-          span.setAttribute('data-path', `${parent.getAttribute('data-path')}.${e}`)
+          let path =  `${parent.getAttribute('data-path')}.${e}`;
+          let parentPath = parent.getAttribute('data-path');
 
-          if (!`${parent.getAttribute('data-path')}.${e}`.includes(this.selectedPath)) {
+          if (!this.selectedPath.includes(parentPath)){
             return;
           }
 
-          this._addNodeClickListener(span)
-          parent.appendChild(span)
-          parent.innerHTML += ':<br>'
-        });
+          let span = document.createElement('span')
+          span.style.padding = curentPadding
+          
+          if (typeof json[e] == 'string' && Array.isArray(json)) {
+            span.innerHTML = `[${e}] => ${json[e]}<br>`;
+            parent.appendChild(span)
+            return;
+          } 
+          if (typeof json[e] == 'string' && typeof json == 'object'){
+            span.innerHTML = `${e} : ${json[e]}<br>`;
+            parent.appendChild(span)
+            return;
+          }
 
+          if (Array.isArray(json)) {
+            span.innerHTML = `[${e}] => [`;
+          }
+          else if(typeof json == 'object') {
+            span.innerHTML = `${e} : {`;
+          } 
+          else {
+          }
+
+          span.setAttribute('data-path', path)
+
+          //
+          // Recursively build the DOM tree structure
+          //
+
+          this._layoutNearestChildren(span, json[e], level + 1)
+          this._addNodeClickListener(span)
+
+          parent.appendChild(span)
+
+          if (Array.isArray(json)) {
+            span.innerHTML += ']<br>';
+          }
+          else if(typeof json == 'object') {
+            span.innerHTML += '}<br>';
+          } 
+        })
       }
     }
-
     window.customElements.define(TreeView.is, TreeView);
   </script>
 </dom-module>
