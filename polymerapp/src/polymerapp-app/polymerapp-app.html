@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/neon-animation/web-animations.html">
 
@@ -14,24 +15,45 @@
     </style>
     <h2>Oppgave 10 - Fartoy dropdown</h2>
 
-
-<iron-ajax
-    auto
-    url="http://localhost:4000/api/getallfartoy.php"
-    handle-as="json"
-    on-response="_handleResponse"></iron-ajax>
-
-
   <paper-dropdown-menu label="Velg fartoy">
-      <paper-listbox slot="dropdown-content" class="dropdown-content">
+
+      <paper-listbox slot="dropdown-content" 
+                     class="dropdown-content"
+                     selected={{selectedIndex}}>
 
       <template is="dom-repeat" items="[[aircrafts]]">
-             <paper-item> [[item.name]]</paper-item>
+             <paper-item>#[[item.id]] [[item.name]]</paper-item>
       </template>
 
      </paper-listbox>
   </paper-dropdown-menu>
 
+
+  <br>
+
+
+
+  <template is="dom-repeat" items="[[aircraftImages]]">
+      
+      <img src="data:image/png;base64,[[item.media]]"/>
+
+  </template>
+
+
+
+
+<iron-ajax
+    auto
+    url="http://localhost:4000/api/getAllAircraft.php"
+    handle-as="json"
+    on-response="_handleAllAircraft"></iron-ajax>
+
+
+<iron-ajax
+    auto
+    url="http://localhost:4000/api/getAllAircraftImages.php?id=[[selectedAircraftId]]"
+    handle-as="json"
+    on-response="_handleAllAircraftImages"></iron-ajax>
 
   </template>
 
@@ -49,16 +71,33 @@
         return {
           aircrafts: {
             type: Array,
+          },
+          aircraftImages: {
+            type: Array
+          },
+          selectedIndex: {
+            type: Number,
+          },
+          selectedAircraftId: {
+            type: Number,
+            computed: '_aircraftIndexToId(selectedIndex)'
           }
-
         };
       }
 
-      _handleResponse(e) { 
+      _aircraftIndexToId(selected) {
+        return this.aircrafts[selected].id
+      }
+
+      _handleAllAircraft(e) { 
         this.aircrafts = e.detail.response
         console.log(this.aircrafts)
       }
 
+      _handleAllAircraftImages(e) {
+        this.aircraftImages = e.detail.response
+        console.log(this.aircraftImages)
+      }
 
       // @note
       // To remove errors when clicking on dropdown this function has to be overriden

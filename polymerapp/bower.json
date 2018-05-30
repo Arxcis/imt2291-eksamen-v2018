@@ -8,7 +8,8 @@
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.1.0",
     "web-animations-js": "web-animations/web-animations-js#2.2.2",
     "iron-dropdown": "^2.2.0",
-    "paper-item": "PolymerElements/paper-item#^2.1.1"
+    "paper-item": "PolymerElements/paper-item#^2.1.1",
+    "paper-listbox": "PolymerElements/paper-listbox#^2.1.1"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

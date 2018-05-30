@@ -74,8 +74,8 @@ function encodeThumbnailToBase64($thing) {
     if (empty($thing)) {
         return $thing;
     }
-    if(isset($thing['thumbnail']))
-        $thing['thumbnail'] = base64_encode($thing['thumbnail']);
+    if(isset($thing['media']))
+        $thing['media'] = base64_encode($thing['media']);
     return $thing;
 }
 
@@ -86,8 +86,8 @@ function encodeThumbnailsToBase64($thingArray) {
     }
 
     foreach ($thingArray as &$thing) {
-        if(isset($thing['thumbnail']))
-            $thing['thumbnail'] = base64_encode($thing['thumbnail']);
+        if(isset($thing['media']))
+            $thing['media'] = base64_encode($thing['media']);
     }
     return $thingArray;
 }

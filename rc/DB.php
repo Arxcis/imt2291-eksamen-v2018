@@ -257,12 +257,14 @@ class DB {
     /**
      * Get all aircraft images
      * @param $db - pdo database handle
+     * @param $aircraftId - id for filtering results
      * @return array of aircraft images
      */
-    public static function getAircraftImages($db) {
+    public static function getAircraftImages($db, $aircraftId) {
         $stmt = DB::prepareThenExecute(
             $db,
-            "SELECT * FROM aircraftImages"
+            "SELECT * FROM aircraftImages WHERE craftid=?",
+            array($aircraftId)
         );
         return $stmt->fetchAll(PDO::FETCH_ASSOC);        
     }
