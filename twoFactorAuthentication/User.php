@@ -85,13 +85,13 @@ EOT;
 
     }
 
-    private function generateVertificationToken($byteCount = 2) {
+    public function generateVertificationToken($byteCount = 2) {
         $bytes = random_bytes($byteCount);
         return bin2hex($bytes);
     }
 
 
-    private function loginUserPart1($username, $password) {
+    public function loginUserPart1($username, $password) {
 
         if ($username == HARDCODED_USER
         &&  $password == HARDCODED_PASSWORD) {
@@ -100,7 +100,7 @@ EOT;
         return null;
     }
 
-    private function loginUserPart2($token) {
+    public function loginUserPart2($token) {
         if ($token === $_SESSION['VERIFICATION_TOKEN']) {
             return true;
         }
