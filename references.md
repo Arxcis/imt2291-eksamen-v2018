@@ -8,6 +8,7 @@
 * web animations - https://medium.com/collaborne-engineering/polymer-2-0-replace-neon-animation-with-web-animations-api-e82d7bd82e6
 
 * paper-dropdown slot - https://github.com/PolymerElements/paper-dropdown-menu/issues/242
+* Array.slice() - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
 
 ## 2018-05-29
 

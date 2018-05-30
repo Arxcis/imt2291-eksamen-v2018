@@ -5,13 +5,14 @@
 
 <!-- TODO Brief litt med twig skills -->
 
-    <title>Eksamen - Oppgave 3</title>
+    <title>Eksamen - Oppgave 9</title>
 
 
 <style>
 
 input, select {
     margin: 5px 0px 5px 0px;
+  
     width: 100%;
     display: block;
 }
@@ -49,11 +50,6 @@ input, select {
             required> 
 
 
-{% for battery in batteryArray %}
-        <option value="{{ battery.id }}"> # {{ battery.id }} 
-                                          - {{ battery.cells}}cell
-                                          / {{ battery.capacity }} mAh</option>
-{% endfor %}
 
     </select>
 
@@ -69,9 +65,6 @@ input, select {
             required> 
 
 
-{% for fartoy in fartoyArray %}
-        <option value="{{ fartoy.id }}">{{ fartoy.name}}</option>
-{% endfor %}
 
     </select>
 
@@ -118,6 +111,78 @@ input, select {
     </form>
 
 </main>
+
+
+<script>
+  
+
+
+function fetchBatteries() {
+  return fetch("/api/getAllBatteries.php")
+    .then(res => { return res.json()})
+    .catch(err => { console.log(err); return err; })
+}
+
+function fetchFartoys () {
+  return fetch("/api/getAllAircraft.php")
+    .then(res => { return res.json()})
+    .catch(err => { console.log(err); return err; })
+}
+
+/*
+{% for battery in batteryArray %}
+        <option value="{{ battery.id }}"> # {{ battery.id }} 
+                                          - {{ battery.cells}}cell
+                                          / {{ battery.capacity }} mAh</option>
+{% endfor %}
+*/
+function populateSelectBattery(batteries) {
+
+    let selectBatteryElement = document.getElementById('input-batteristatus-batteryid')
+
+    batteries.map(battery => {
+      let option = document.createElement('option');
+
+      option.value = battery.id
+      option.innerHTML = `# ${ battery.id      }
+                          - ${ battery.cells   }cell
+                          / ${ battery.capacity} mah`
+      selectBatteryElement.appendChild(option)
+    })
+}
+
+
+/*
+{% for fartoy in fartoyArray %}
+        <option value="{{ fartoy.id }}">{{ fartoy.name}}</option>
+{% endfor %}
+*/
+function populateSelectFartoy(fartoys) {
+ 
+
+    let selectFartoyElement = document.getElementById('input-batteristatus-fartoyid')
+
+    fartoys.map(fartoy => {
+      let option = document.createElement('option');
+
+      option.value = fartoy.id
+      option.innerHTML = fartoy.name
+
+      selectFartoyElement.appendChild(option)        
+    })
+}
+
+
+window.addEventListener('load', e => {
+  fetchFartoys()
+  .then(fartoys => populateSelectFartoy(fartoys))
+  
+  fetchBatteries()
+  .then(batteries => populateSelectBattery(batteries))
+})
+
+
+</script>
 
 
 </body>
